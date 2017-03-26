@@ -332,6 +332,7 @@ module Miasma
   end
 
   Models::Compute.autoload :OpenStack, 'miasma/contrib/open_stack/compute'
+  Models::LoadBalancer.autoload :OpenStack, 'miasma/contrib/open_stack/load_balancer'
   Models::Orchestration.autoload :OpenStack, 'miasma/contrib/open_stack/orchestration'
   Models::Storage.autoload :OpenStack, 'miasma/contrib/open_stack/storage'
 end
