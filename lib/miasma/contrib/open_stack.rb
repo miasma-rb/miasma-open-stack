@@ -155,15 +155,15 @@ module Miasma
                 )
               )
             else
-              if(credentials[:open_stack_domain])
+              if(credentials[:open_stack_project])
                 scope = Smash.new(
-                  :domain => Smash.new(
-                    :name => credentials[:open_stack_domain]
+                  :project => Smash.new(
+                    :name => credentials[:open_stack_project]
                   )
                 )
-                if(credentials[:open_stack_project])
-                  scope[:project] = Smash.new(
-                    :name => credentials[:open_stack_project]
+                if(credentials[:open_stack_domain])
+                  scope[:project][:domain] = Smash.new(
+                    :name => credentials[:open_stack_domain]
                   )
                 end
               end
@@ -186,7 +186,7 @@ module Miasma
                 :auth => authentication_request
               )
             )
-            unless(result.status == 200)
+            unless(result.status == 200 || result.status == 201)
               raise Error::ApiError::AuthenticationError.new('Failed to authenticate!', result)
             end
             info = MultiJson.load(result.body.to_s).to_smash[:token]
@@ -314,7 +314,9 @@ module Miasma
         end
         if(region)
           point = srv[:endpoints].detect do |endpoint|
-            endpoint[:region].to_s.downcase == region.to_s.downcase
+            if(endpoint[:interface].to_s.downcase == "public")
+                endpoint[:region].to_s.downcase == region.to_s.downcase
+            end
           end
         else
           point = srv[:endpoints].first
