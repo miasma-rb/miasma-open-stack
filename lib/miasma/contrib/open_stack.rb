@@ -163,7 +163,7 @@ module Miasma
                 )
                 if(credentials[:open_stack_domain])
                   scope[:project][:domain] = Smash.new(
-                    :nameg => credentials[:open_stack_domain]
+                    :name => credentials[:open_stack_domain]
                   )
                 end
               end
